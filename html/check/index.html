@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Security-Policy" content="default-src * data: gap: https://ssl.gstatic.com 'unsafe-eval' 'unsafe-inline'; style-src * 'unsafe-inline'; media-src *; img-src * data: content: blob:;">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="msapplication-tap-highlight" content="no">
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+  <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+  <title>SensorPenTablet Controller</title>
+
+  <link rel="stylesheet" href="css/start.css">
+  <script src="js/methods_utils.js"></script>
+  <script src="js/vue_utils.js"></script>
+
+  <script src="dist/js/vconsole.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="top" class="container">
+        <h1>SensorPenTablet Controller</h1>
+
+        <button class="btn btn-default" v-on:click="device_open">open</button>
+        <label>deviceName</label> {{deviceName}}
+        <label>capability</label> {{capability}}<br>
+        <h3>Location</h3>
+        <button class="btn btn-default" v-on:click="get_location">location</button> 
+        <label>latitude</label> {{latitude}} <label>longiude</label> {{longitude}}<br>
+        <div class="row">
+            <div class="col-xs-4">
+                <h3>TouchPad</h3>
+                <label>width</label> {{width}}<br>
+                <label>height</label> {{height}}<br>
+                <label>action</label> {{action}}<br>
+                <label>targetId</label> {{targetId}}<br>
+                <ol>
+                    <li v-for="(pointer, index) in pointers">{{pointer.pointerId}} ({{pointer.x.toFixed(0)}},{{pointer.y.toFixed(0)}})</li>
+                </ol>
+            </div>
+            <div class="col-xs-4">
+                <h3>TouchPad1</h3>
+                <label>width</label> {{width1}}<br>
+                <label>height</label> {{height1}}<br>
+                <label>action</label> {{action1}}<br>
+                <label>targetId</label> {{targetId1}}<br>
+                <ol>
+                    <li v-for="(pointer, index) in pointers1">{{pointer.pointerId}} ({{pointer.x.toFixed(0)}},{{pointer.y.toFixed(0)}})</li>
+                </ol>
+            </div>
+            <div class="col-xs-4">
+                <h3>TouchPad2</h3>
+                <label>width</label> {{width2}}<br>
+                <label>height</label> {{height2}}<br>
+                <label>action</label> {{action2}}<br>
+                <label>targetId</label> {{targetId2}}<br>
+                <ol>
+                    <li v-for="(pointer, index) in pointers2">{{pointer.pointerId}} ({{pointer.x.toFixed(3)}},{{pointer.y.toFixed(0)}})</li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-4">
+                <h3>Magnetic Field</h3>
+                <label>magnetic.x</label> {{magnetic.x}}<br>
+                <label>magnetic.y</label> {{magnetic.y}}<br>
+                <label>magnetic.z</label> {{magnetic.z}}<br>
+            </div>
+            <div class="col-xs-4">
+                <h3>Gyrometer</h3>
+                <label>gyro.x</label> {{gyro.x}}<br>
+                <label>gyro.y</label> {{gyro.y}}<br>
+                <label>gyro.z</label> {{gyro.z}}<br>
+            </div>
+            <div class="col-xs-4">
+                <h3>Accelerometer</h3>
+                <label>accel.x</label> {{accel.x}}<br>
+                <label>accel.y</label> {{accel.y}}<br>
+                <label>accel.z</label> {{accel.z}}<br>
+            </div>
+        </div>
+        <h3>Buttons</h3>
+        <ul class="list-unstyled">
+            <li><label>fn_buttons</label> ( <span v-for="(count, index) in fn_count">{{count}} </span>)</li>
+            <li><label>push_buttons</label> ( <span v-for="(count, index) in push_count">{{count}} </span>)</li>
+        </ul>
+        <div class="form-inline">
+            <label>panel</label>
+            <select class="form-control" v-model.number="panel" v-on:change="set_panel">
+                <option value="0">None</option>
+                <option value="1">Push</option>
+                <option value="2">Touch</option>
+                <option value="3">2Touch</option>
+            </select>
+            <label>button_num</label>
+            <select class="form-control" v-model.number="button_num" v-on:change="set_button">
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+        </div>
+        <hr>
+        <div>
+            <input type="text" class="form-control" v-model="paste_toast">
+            <button class="btn btn-default" v-on:click="send_copy">Clipboard</button>
+            <button class="btn btn-default" v-on:click="send_toast">Toast</button>
+        </div>
+        <br>
+        <div>
+            <label>recognition</label>
+            <input type="text" class="form-control" v-model="recognition" readonly>
+        </div>
+        <div>
+            <label>qrcode</label>
+            <input type="text" class="form-control" v-model="qrcode" readonly>
+        </div>
+        <div>
+            <label>Clipboard</label>
+            <input type="text" class="form-control" v-model="copy" readonly>
+        </div>
+        <br>
+
+
+        <div class="modal fade" id="progress">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">{{progress_title}}</h4>
+                    </div>
+                    <div class="modal-body">
+                        <center><progress max="100" /></center>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/start.js"></script>
+</body>

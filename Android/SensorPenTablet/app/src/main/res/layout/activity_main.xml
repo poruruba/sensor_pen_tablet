@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="BLEで接続し、Nofiticationを有効にしてください。"
+        android:textAlignment="center" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10sp"
+        android:layout_marginRight="1sp"
+        android:orientation="horizontal">
+
+        <ToggleButton
+            android:id="@+id/tgl_ctrl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10sp"
+            android:checked="true"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textOff="Ctrl Off"
+            android:textOn="Ctrl On"
+            android:textStyle="bold" />
+        <Button
+            android:id="@+id/btn_fn1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Fn1" />
+        <Button
+            android:id="@+id/btn_fn2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Fn2" />
+        <Button
+            android:id="@+id/btn_fn3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Fn3" />
+        <Button
+            android:id="@+id/btn_fn4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Fn4" />
+        <Button
+            android:id="@+id/btn_fn5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Fn5" />
+
+        <Spinner
+            android:id="@+id/spin_mode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_ctrl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10sp"
+        android:layout_marginRight="10sp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_copy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Clipboard" />
+        <Button
+            android:id="@+id/btn_qrscan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="QrScan" />
+        <Button
+            android:id="@+id/btn_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Location" />
+        <Button
+            android:id="@+id/btn_recog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Recognition" />
+        <ToggleButton
+            android:id="@+id/tgl_magnetic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textOn="Mag On" android:textOff="Mag Off"
+            android:checked="false" />
+        <ToggleButton
+            android:id="@+id/tgl_gyro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textOn="Gyro On" android:textOff="Gyro Off"
+            android:checked="false" />
+        <ToggleButton
+            android:id="@+id/tgl_accel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textOn="Accel On" android:textOff="Accel Off"
+            android:checked="false" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/layout_push"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:visibility="gone"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_push1"
+                android:layout_margin="20sp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Button1" />
+
+            <Button
+                android:id="@+id/btn_push2"
+                android:layout_margin="20sp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Button2" />
+
+            <Button
+                android:id="@+id/btn_push3"
+                android:layout_margin="20sp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Button3" />
+
+            <Button
+                android:id="@+id/btn_push4"
+                android:layout_margin="20sp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Button4" />
+
+            <Button
+                android:id="@+id/btn_push5"
+                android:layout_margin="20sp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Button5" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_touch"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:visibility="gone"
+            android:orientation="horizontal">
+
+            <com.example.sensorpentablet.TouchView
+                android:id="@+id/view_touch"
+                android:layout_margin="10dp"
+                android:background="@drawable/border_style"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_2touch"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:visibility="gone"
+            android:orientation="horizontal">
+
+            <com.example.sensorpentablet.TouchView
+                android:id="@+id/view_touch1"
+                android:layout_weight="1"
+                android:layout_marginRight="60dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/border_style"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <com.example.sensorpentablet.TouchView
+                android:id="@+id/view_touch2"
+                android:layout_weight="1"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="60dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/border_style"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
