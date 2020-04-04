@@ -8,6 +8,8 @@ public class Const {
     public static final byte CMD_PANEL_MODE = (byte)0x08;
     public static final byte CMD_TOAST = (byte)0x0c;
     public static final byte CMD_RECOGNITION = (byte)0x0d;
+    public static final byte CMD_SENSOR_MASK = (byte)0x0e;
+    public static final byte CMD_RAW = (byte)0xff;
 
     public static final byte RSP_ACK = (byte)0x00;
     public static final byte RSP_PANEL_CHANGE = (byte)0x19;
@@ -18,6 +20,7 @@ public class Const {
     public static final byte RSP_ACCELEROMETER = (byte)0x15;
     public static final byte RSP_TOUCH_EVENT = (byte)0x17;
     public static final byte RSP_BUTTON_EVENT = (byte)0x18;
+    public static final byte RSP_RAW = (byte)0xff;
 
     public static final byte TYPE_TEXT_COPY = 0x01;
     public static final byte TYPE_TEXT_QRCODE = 0x02;
@@ -31,12 +34,12 @@ public class Const {
     public static final byte BTNID_PUSH_BASE    = (byte)0x10;
     public static final byte BTNID_FN_BASE     = (byte)0x20;
 
-    public static final int CAP_CLIPBORAD = 0x00000001;
-    public static final int CAP_PANEL = 0x00000002;
-    public static final int CAP_MAGNETIC = 0x00000004;
-    public static final int CAP_LOCATION = 0x00000008;
-    public static final int CAP_GYROSCOPE = 0x00000010;
-    public static final int CAP_ACCELEROMETER = 0x00000020;
+    public static final int CAP_MAGNETIC = 0x00000001;
+    public static final int CAP_GYROSCOPE = 0x00000002;
+    public static final int CAP_ACCELEROMETER = 0x00000004;
+    public static final int CAP_CLIPBORAD = 0x00000008;
+    public static final int CAP_PANEL = 0x00000010;
+    public static final int CAP_LOCATION = 0x00000020;
     public static final int CAP_BUTTON = 0x00000040;
     public static final int CAP_QRCODE = 0x00000080;
     public static final int CAP_RECOGNITION = 0x00000100;

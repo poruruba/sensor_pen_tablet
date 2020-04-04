@@ -15,6 +15,8 @@ const CMD_LOCATION = 0x03;
 const CMD_PANEL_MODE = 0x08;
 const CMD_TOAST = 0x0c;
 const CMD_RECOGNITION = 0x0d;
+const CMD_SENSOR_MASK = 0x0e;
+const CMD_RAW = 0xff;
 
 const RSP_ACK = 0x00;
 const RSP_PANEL_CHANGE = 0x19;
@@ -25,6 +27,7 @@ const RSP_GYROSCOPE = 0x14;
 const RSP_ACCELEROMETER = 0x15;
 const RSP_TOUCH_EVENT = 0x17;
 const RSP_BUTTON_EVENT = 0x18;
+const RSP_RAW = 0xff;
 
 const TYPE_TEXT_COPY = 0x01;
 const TYPE_TEXT_QRCODE = 0x02;
@@ -66,21 +69,28 @@ var vue_options = {
         action2: 0,
         targetId2: 0,
         pointers2: [],
-        accel: {},
-        gyro: {},
-        magnetic: {},
+        accel: null,
+        gyro: null,
+        magnetic: null,
         copy: '',
         qrcode: '',
         recognition: '',
         fn_count: [0, 0, 0, 0, 0],
         push_count: [0, 0, 0, 0, 0],
         capability: 0,
+        is_magnetic: false,
+        is_gyroscope: false,
+        is_accelerometer: false,
     },
     computed: {
     },
     methods: {
         device_open: async function(){
             try{
+                if( bluetoothDevice != null ){
+                    if( bluetoothDevice.gatt.connected )
+                        bluetoothDevice.gatt.disconnect();
+                }
                 console.log('Execute : requestDevice');
                 var device = await navigator.bluetooth.requestDevice({
                     filters: [{services:[ UUID_SERVICE ]}]
@@ -115,6 +125,10 @@ var vue_options = {
         onDisconnect: function(event){
             console.log('onDisconnect');
             characteristics.clear();
+            if( bluetoothDevice != null ){
+                if( bluetoothDevice.gatt.connected )
+                    bluetoothDevice.gatt.disconnect();
+            }
         },
         setCharacteristic: async function(service, characteristicUuid) {
             var characteristic = await service.getCharacteristic(characteristicUuid)
@@ -325,6 +339,19 @@ var vue_options = {
         set_panel: async function(){
             try{
                 var send_buffer = [CMD_PANEL_MODE, this.panel, this.button_num];
+                await this.sendBuffer(send_buffer, send_buffer.length);
+            }catch(error){
+                console.log(error);
+                alert(error);
+            }
+        },
+        set_mask: async function(){
+            try{
+                var mask = 0x00;
+                if( this.is_magnetic ) mask |= 0x01;
+                if( this.is_gyroscope ) mask |= 0x02;
+                if( this.is_accelerometer ) mask |= 0x04;
+                var send_buffer = [CMD_SENSOR_MASK, mask];
                 await this.sendBuffer(send_buffer, send_buffer.length);
             }catch(error){
                 console.log(error);

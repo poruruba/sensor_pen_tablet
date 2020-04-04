@@ -10,6 +10,8 @@ const CMD_LOCATION = 0x03;
 const CMD_PANEL_MODE = 0x08;
 const CMD_TOAST = 0x0c;
 const CMD_RECOGNITION = 0x0d;
+const CMD_SENSOR_MASK = 0x0e;
+const CMD_RAW = 0xff;
 
 const RSP_ACK = 0x00;
 const RSP_PANEL_CHANGE = 0x19;
@@ -20,6 +22,7 @@ const RSP_GYROSCOPE = 0x14;
 const RSP_ACCELEROMETER = 0x15;
 const RSP_TOUCH_EVENT = 0x17;
 const RSP_BUTTON_EVENT = 0x18;
+const RSP_RAW = 0xff;
 
 class SensorPenTablet{
   constructor(){
@@ -45,6 +48,9 @@ class SensorPenTablet{
   }
 
   async deviceOpen(){
+    if( this.bluetoothDevice != null && this.bluetoothDevice.gatt.connected )
+      this.bluetoothDevice.gatt.disconnect();
+
     console.log('Execute : requestDevice');
     var device = await navigator.bluetooth.requestDevice({
         filters: [{services:[ UUID_SERVICE ]}]
@@ -71,6 +77,11 @@ class SensorPenTablet{
     await this.readChar(UUID_READ);
 
     return this.bluetoothDevice.name;
+  }
+
+  deviceClose(){
+    if( this.bluetoothDevice != null && this.bluetoothDevice.gatt.connected )
+      this.bluetoothDevice.gatt.disconnect();
   }
 
   onDisconnect(event){

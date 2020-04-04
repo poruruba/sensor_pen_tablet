@@ -70,24 +70,37 @@
             </div>
         </div>
 
+        <div class="form-inline">
+            <button class="btn btn-default" v-on:click="set_mask">SetMask</button>
+            <label><input type="checkbox" v-model="is_magnetic">MagneticField&nbsp;</label>
+            <label><input type="checkbox" v-model="is_gyroscope">Gyrometer&nbsp;</label>
+            <label><input type="checkbox" v-model="is_accelerometer">Accelerometer&nbsp;</label>
+        </div>
+
         <div class="row">
             <div class="col-xs-4">
                 <h3>Magnetic Field</h3>
-                <label>magnetic.x</label> {{magnetic.x}}<br>
-                <label>magnetic.y</label> {{magnetic.y}}<br>
-                <label>magnetic.z</label> {{magnetic.z}}<br>
+                <span v-if="magnetic">
+                    <label>magnetic.x</label> {{magnetic.x.toFixed(4)}}<br>
+                    <label>magnetic.y</label> {{magnetic.y.toFixed(4)}}<br>
+                    <label>magnetic.z</label> {{magnetic.z.toFixed(4)}}<br>
+                </span>
             </div>
             <div class="col-xs-4">
                 <h3>Gyrometer</h3>
-                <label>gyro.x</label> {{gyro.x}}<br>
-                <label>gyro.y</label> {{gyro.y}}<br>
-                <label>gyro.z</label> {{gyro.z}}<br>
+                <span v-if="gyro">
+                    <label>gyro.x</label> {{gyro.x.toFixed(4)}}<br>
+                    <label>gyro.y</label> {{gyro.y.toFixed(4)}}<br>
+                    <label>gyro.z</label> {{gyro.z.toFixed(4)}}<br>
+                </span>
             </div>
             <div class="col-xs-4">
                 <h3>Accelerometer</h3>
-                <label>accel.x</label> {{accel.x}}<br>
-                <label>accel.y</label> {{accel.y}}<br>
-                <label>accel.z</label> {{accel.z}}<br>
+                <span v-if="accel">
+                    <label>accel.x</label> {{accel.x.toFixed(4)}}<br>
+                    <label>accel.y</label> {{accel.y.toFixed(4)}}<br>
+                    <label>accel.z</label> {{accel.z.toFixed(4)}}<br>
+                </span>
             </div>
         </div>
         <h3>Buttons</h3>

@@ -213,31 +213,19 @@ public class MainActivity extends Activity implements View.OnClickListener, UIHa
             case R.id.tgl_magnetic:{
                 ToggleButton tgl;
                 tgl = findViewById(R.id.tgl_magnetic);
-                isMagnetic = tgl.isChecked();
-                if( tgl.isChecked() )
-                    sensorStart(Sensor.TYPE_MAGNETIC_FIELD);
-                else
-                    sensorStop(Sensor.TYPE_MAGNETIC_FIELD);
+                setSensorEnable(Sensor.TYPE_MAGNETIC_FIELD, tgl.isChecked());
                 break;
             }
             case R.id.tgl_gyro:{
                 ToggleButton tgl;
                 tgl = findViewById(R.id.tgl_gyro);
-                isGyroscope = tgl.isChecked();
-                if( tgl.isChecked() )
-                    sensorStart(Sensor.TYPE_GYROSCOPE);
-                else
-                    sensorStop(Sensor.TYPE_GYROSCOPE);
+                setSensorEnable(Sensor.TYPE_GYROSCOPE, tgl.isChecked());
                 break;
             }
             case R.id.tgl_accel:{
                 ToggleButton tgl;
                 tgl = findViewById(R.id.tgl_accel);
-                isAccelerometer = tgl.isChecked();
-                if( tgl.isChecked() )
-                    sensorStart(Sensor.TYPE_ACCELEROMETER);
-                else
-                    sensorStop(Sensor.TYPE_ACCELEROMETER);
+                setSensorEnable(Sensor.TYPE_ACCELEROMETER, tgl.isChecked());
                 break;
             }
             case R.id.tgl_ctrl: {
@@ -533,8 +521,28 @@ public class MainActivity extends Activity implements View.OnClickListener, UIHa
                 doRecognize();
                 break;
             }
+            case Const.CMD_SENSOR_MASK:{
+                setSensorEnable(Sensor.TYPE_MAGNETIC_FIELD, (recv_buffer[1] & 0x01) != 0x00 );
+                setSensorEnable(Sensor.TYPE_GYROSCOPE, (recv_buffer[1] & 0x02) != 0x00 );
+                setSensorEnable(Sensor.TYPE_ACCELEROMETER, (recv_buffer[1] & 0x04) != 0x00 );
+                break;
+            }
         }
         sendAck();
+    }
+
+    private void setSensorEnable(int type, boolean enable){
+        if( type == Sensor.TYPE_MAGNETIC_FIELD ) {
+            isMagnetic = enable;
+        }else if( type == Sensor.TYPE_GYROSCOPE){
+            isGyroscope = enable;
+        }else if( type == Sensor.TYPE_ACCELEROMETER ){
+            isAccelerometer = enable;
+        }
+        if (enable)
+            sensorStart(type);
+        else
+            sensorStop(type);
     }
 
     private void sensorStart(int type){
