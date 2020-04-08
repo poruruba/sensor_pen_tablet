@@ -23,6 +23,8 @@
   <script src="js/methods_utils.js"></script>
   <script src="js/vue_utils.js"></script>
 
+  <script src="js/SensorPenTablet.js"></script>
+
   <script src="dist/js/vconsole.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
@@ -34,9 +36,6 @@
         <button class="btn btn-default" v-on:click="device_open">open</button>
         <label>deviceName</label> {{deviceName}}
         <label>capability</label> {{capability}}<br>
-        <h3>Location</h3>
-        <button class="btn btn-default" v-on:click="get_location">location</button> 
-        <label>latitude</label> {{latitude}} <label>longiude</label> {{longitude}}<br>
         <div class="row">
             <div class="col-xs-4">
                 <h3>TouchPad</h3>
@@ -134,13 +133,22 @@
         </div>
         <br>
         <div>
-            <label>recognition</label>
+            <label>Location</label><br>
+            <button class="btn btn-default" v-on:click="get_location">location</button> 
+            <label>latitude</label> {{latitude}} <label>longiude</label> {{longitude}}<br>
+        </div>
+        <br>
+        <div>
+            <label>Recognition</label><br>
+            <button class="btn btn-default" v-on:click="do_recognition">Recognition</button>
             <input type="text" class="form-control" v-model="recognition" readonly>
         </div>
+        <br>
         <div>
-            <label>qrcode</label>
+            <label>QRCode</label>
             <input type="text" class="form-control" v-model="qrcode" readonly>
         </div>
+        <br>
         <div>
             <label>Clipboard</label>
             <input type="text" class="form-control" v-model="copy" readonly>

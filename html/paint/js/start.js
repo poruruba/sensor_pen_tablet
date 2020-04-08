@@ -18,7 +18,7 @@ var vue_options = {
         div: 0.0,
         canvas: null,
         context: null,
-        capacity: 0,
+        capability: 0,
     },
     computed: {
     },
@@ -36,8 +36,11 @@ var vue_options = {
                 this.progress_close();
             }
         },
-        touchListener: async function(event){
+        touchListener: async function(type, event){
             if( this.context != null ){
+                if( event.id != 0 )
+                    return;
+
                 var action = event.action;
                 var targetId = event.targetId;
                 var pointers = event.pointers;
@@ -70,8 +73,8 @@ var vue_options = {
                 }
             }
         },
-        initListener: async function(event){
-            this.capacity = event.cap;
+        initListener: async function(type, event){
+            this.capability = event.cap;
             try{
                 await pentablet.setPanel(0x02);
             }catch(error){
@@ -81,8 +84,8 @@ var vue_options = {
                 this.progress_close();
             }
         },
-        changeListener: async function(event){
-            if( event.panel == 2 ){
+        changeListener: async function(type, event){
+            if( event.panel == 2 && this.context == null ){
                 this.original_width = event.size[0].width;
                 this.original_height = event.size[0].height;
                 this.canvas = $('#canvas')[0];
@@ -98,7 +101,7 @@ var vue_options = {
                 this.context = canvas.getContext('2d');
             }
         },
-        buttonListener: function(event){
+        buttonListener: function(type, event){
             this.canvas_button(event.button);
         },
         canvas_button: function(btn){
@@ -125,21 +128,6 @@ var vue_options = {
 };
 vue_add_methods(vue_options, methods_utils);
 var vue = new Vue( vue_options );
-
-function dataview_to_uint8array(array){
-	var result = new Uint8Array(array.byteLength);
-	for( var i = 0 ; i < array.byteLength ; i++ )
-		result[i] = array.getUint8(i);
-		
-	return result;
-}
-
-function array_copy( dest, dest_offset, src, src_offset, length ){
-    for( var i = 0 ; i < length ; i++ )
-        dest[dest_offset + i] = src[src_offset + i];
-    
-    return dest;
-}
 
 function object_clone(object){
     return JSON.parse(JSON.stringify(object));   

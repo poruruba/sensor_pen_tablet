@@ -121,21 +121,21 @@ class SensorPenTablet{
     if( characteristic.uuid == this.UUID_NOTIFY ){
       let value = this.dataview_to_uint8array(characteristic.value);
 
-        if( this.expected_len > 0 && value[0] != this.expected_slot )
-          this.expected_len = 0;
+      if( this.expected_len > 0 && value[0] != this.expected_slot )
+        this.expected_len = 0;
     
-        if( this.expected_len == 0 ){
+      if( this.expected_len == 0 ){
             if( value[0] != 0x83 )
                 return;
             this.recv_len = 0;
             this.expected_len = (value[1] << 8) | value[2];
-          this.array_copy(this.recv_buffer, this.recv_len, value, 3, value.length - 3);
+            this.array_copy(this.recv_buffer, this.recv_len, value, 3, value.length - 3);
             this.recv_len += value.length - 3;
             this.expected_slot = 0;
             if( this.recv_len < this.expected_len )
                 return;
         }else{
-          this.array_copy(this.recv_buffer, this.recv_len, value, 1, value.length - 1);
+            this.array_copy(this.recv_buffer, this.recv_len, value, 1, value.length - 1);
             this.recv_len += value.length - 1;
             this.expected_slot++;
             if( this.recv_len < this.expected_len )
@@ -146,7 +146,7 @@ class SensorPenTablet{
         await this.processResponse(this.recv_buffer, this.recv_len);
     }
   }
-  
+
   async processResponse(recv_buffer, recv_len){
     switch(recv_buffer[0]){
       case this.RSP_TEXT: {
@@ -158,7 +158,7 @@ class SensorPenTablet{
         };
         await this.fireEvent(this.eventsData, this.RSP_TEXT, event);
         break;
-        }
+      }
       case this.RSP_LOCATION: {
         var dv = new DataView(recv_buffer.buffer, 1, 16);
         var lat = dv.getFloat64(0, false);
@@ -179,7 +179,9 @@ class SensorPenTablet{
         var y = dv.getFloat32(4, false);
         var z = dv.getFloat32(8, false);
         var event = {
-          x: x, y: y, z: z,
+          x: x,
+          y: y,
+          z: z,
         };
         await this.fireEvent(this.eventsSensor, recv_buffer[0], event);
         break;
@@ -349,7 +351,7 @@ class SensorPenTablet{
   async setSensorMask(types){
     var send_buffer = [this.CMD_SENSOR_MASK, types];
     await this.sendBuffer(send_buffer, send_buffer.length);
-}
+  }
 
   init_const(){
     this.UUID_SERVICE = '08030900-7d3b-4ebf-94e9-18abc4cebede';
@@ -378,18 +380,18 @@ class SensorPenTablet{
   }
 
   dataview_to_uint8array(array){
-	var result = new Uint8Array(array.byteLength);
-	for( var i = 0 ; i < array.byteLength ; i++ )
-		result[i] = array.getUint8(i);
-		
-	return result;
-}
-
+    var result = new Uint8Array(array.byteLength);
+    for( var i = 0 ; i < array.byteLength ; i++ )
+      result[i] = array.getUint8(i);
+      
+    return result;
+  }
+  
   array_copy( dest, dest_offset, src, src_offset, length ){
-    for( var i = 0 ; i < length ; i++ )
-        dest[dest_offset + i] = src[src_offset + i];
-    
-    return dest;
+      for( var i = 0 ; i < length ; i++ )
+          dest[dest_offset + i] = src[src_offset + i];
+      
+      return dest;
   }
 }
 
